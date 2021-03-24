@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Raleway&display=swap');
+
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+  margin: 0;
+  color: #0096A3;
+}
+
+p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+}
+
+body {
+  color: #555b6e;
+  background: rgb(245,245,245);
+  margin: 0;
+}
+
+h2 {
+  color: #E6A289;
+}
+
+a {
+  color: #edf6f9;
+  background-color: #83c5be;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+a:hover {
+  box-shadow: 2px 2px 3px rgb(240,240,240);
+}
+
+img {
+  border-radius: 50%;
+}
+
+.container {
+  width: 500px;        /* Set the width */
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #faf9f9;
+  box-shadow: 0px 10px 30px rgb(0 0 0 / 10%);
+  padding: 40px;
+  margin: 20px 0;
+  text-align: center;
+  border-radius: 4px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 4px}
+
+  @media (max-width: 960px) {
+    /* For a screen < 960px, this CSS will be read */
+    .container {
+      width: 700px;
+    }
+  }
+  @media (max-width: 720px) {
+    /* For a screen < 720px, this CSS will be read */
+    .container {
+      width: 500px;
+    }
+  }
+  @media (max-width: 540px) {
+    /* For a screen < 540px, this CSS will be read */
+    .container {
+      width: 300px;
+    }
+  }
