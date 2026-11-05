@@ -32,3 +32,14 @@ test('encodes special characters without changing query structure',()=>{
 test('bounds extraction size',()=>assert.equal(extractPlaces(Array.from({length:100},(_,i)=>`店名：餐厅${i}`).join('\n')).places.length,80));
 
 test('preserves meaningful leading digits in brand names and addresses',()=>{const r=extractPlaces('店名：7分甜\n地址：123 Nanjing Road','上海');assert.equal(r.places[0].name,'7分甜');assert.equal(r.places[0].address,'123 Nanjing Road');});
+
+test('comment location beats reply metadata, and pronunciation spacing is normalized',()=>{
+ const r=extractPlaces('06-26 上海 回复\n叫 “ 天 明 饭 店 ”，在广州荔湾\n区上下九步行街那边，不过评论区有老广说这个鸡看起来不怎么样。\n06-26 上海 回复');
+ const place=r.places.find(p=>p.name==='天明饭店');assert.ok(place);assert.equal(place.city,'广州');assert.equal(place.address,'广州荔湾区上下九步行街');assert.equal(place.kind,'area');
+});
+
+test('removes pronunciation rows without dropping labelled restaurant names',()=>{
+ const r=extractPlaces('jiao tian ming fan dian zai guang zhou\n叫“天明饭店”，在广州荔湾\nqu shang xia jiu bu xing jie na bian\n区上下九步行街那边，不过评论区有讨论。\n06-26 上海 回复');
+ const p=r.places.find(p=>p.name==='天明饭店');assert.equal(p.city,'广州');assert.equal(p.address,'广州荔湾区上下九步行街');
+ assert.equal(extractPlaces('店名：Tian Ming Fan Dian','广州').places[0].name,'Tian Ming Fan Dian');
+});

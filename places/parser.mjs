@@ -6,8 +6,18 @@ const isAddress=text=>/(?:路|街|巷|弄|大道|胡同|大厦|广场|商场|购
 const nameLabel=/^(?:店名|店铺|餐厅名?|名称|地点|位置|咖啡店|restaurant|place|name)\s*[:：]\s*/i;
 const addressLabel=/^(?:详细地址|地址|位置|坐标|address)\s*[:：]\s*/i;
 function reasonable(text){return text.length>=2&&text.length<=100&&!/^(?:推荐|攻略|收藏|点赞|关注|分享|人均|营业时间|交通|地铁|营业|排队|必吃|这家|真的|好吃|不要|一定|记得|建议|小红书|复制|打开)[^店馆]{0,8}$/.test(text)&&!/[。！？!?]/.test(text);}
+export function normalizeText(text){
+ return text.replace(/\r/g,'').split('\n').map(line=>{
+   const latin=line.normalize('NFD').replace(/\p{Mark}/gu,'').toLowerCase();
+   const syllables=latin.match(/\b(?:tian|ming|fan|dian|zai|guang|zhou|shang|xia|jiu|bu|xing|jie|na|bian|wo|ni|de|le|shi|kan|qi|lai|zen|me|yang|pan|duan|ge|ji|zhe|ba)\b/g)||[];
+   if(syllables.length>=4&&(line.match(/\p{Script=Han}/gu)||[]).length<4&&!/^(?:店名|名称|地址|name|address)[:：]/i.test(line.trim()))return '';
+   let cleaned=line.replace(/(?<=[\p{Script=Han}])\s+(?=[\p{Script=Han}])/gu,'').replace(/\s+([，。、“”「」])/g,'$1').replace(/([“「])\s+/g,'$1');
+   if(/(?:\d{2}[-/]\d{2}|IP属地|发布于).*?(?:回复|回復)/.test(cleaned)||/^(?:展开.*条回复|置顶评论|共\s*\d+\s*条评论)/.test(cleaned))return '';
+   return cleaned;
+ }).join('\n');
+}
 export function extractPlaces(input,cityHint=''){
- const text=String(input).slice(0,20000).replace(/\r/g,'');
+ const text=normalizeText(String(input).slice(0,60000));
  const links=[...text.matchAll(/https?:\/\/[^\s<>]+/g)].map(m=>m[0].replace(/[，。；）)]+$/,''));
  let currentCity=cityHint.trim()||cityOf(text.split('\n')[0]);
  const places=[];let previous=null;
@@ -50,6 +60,13 @@ export function extractPlaces(input,cityHint=''){
   if((numbered||pin)&&reasonable(line)){add(line);continue;}
   if(localCity&&/^(?:周末|探店|必吃|旅游)?(?:咖啡|咖啡馆|美食|餐厅|景点|公园)(?:清单|合集|推荐|攻略)?$/.test(line.replace(localCity,'')))continue;
   if(line.length<=50&&/(?:咖啡(?:馆)?|餐厅|饭店|面馆|茶馆|茶室|酒吧|酒店|民宿|博物馆|美术馆|公园|书店|寺|\([^)]*店\)|（[^）]*店）)$/.test(line)&&!/(?:推荐|合集|攻略|值得|一定要|最好|家店|这家)/.test(line))add(line);
+ }
+ for(const place of places){
+  if(place.address&&/\d+\s*(?:号|弄|楼|层|室)/.test(place.address))continue;
+  const index=text.indexOf(place.name);if(index<0)continue;
+  const context=text.slice(index+place.name.length,index+place.name.length+160).replace(/\n/g,'');
+  const location=context.match(/(?:在|位于|地址[:：]?|坐标[:：]?)\s*([\p{Script=Han}\dA-Za-z·（）()\s]{3,65})/u)?.[1]?.split(/不过|但是|那边|附近|人均|推荐|怎么/)[0]?.trim();
+  if(location&&/(?:区|市|街|路|镇|县|巷)/.test(location)){place.address=location;place.city=cityOf(location)||place.city;place.kind='area';}
  }
  const dedup=new Map();
  for(const p of places){const key=placeKey(p);if(!dedup.has(key))dedup.set(key,p);}
