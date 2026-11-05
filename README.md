@@ -19,3 +19,11 @@ Browser checks cover all four opportunity types, rejection progress, editable re
 ## Milestone badges
 
 Rejections unlock badges at 1, 10, 25, 50, 75, and 100. The next-badge progress indicator and badge collection derive from existing saved attempts; no data migration is required. Undoing or deleting a rejection recalculates earned badges. New threshold crossings show a celebration; loading existing progress does not replay it. Reduced-motion preferences disable confetti.
+
+## Install on Android and use offline
+
+Open the public HTTPS site in normal Android Chrome (not incognito). Wait for **Ready offline**, then tap **Install app** and confirm Chrome's prompt. If the prompt is unavailable, use Chrome's **⋮ → Install app / Add to Home screen** menu. Launch from the home-screen icon. After the first successful cache preparation, the app shell, icons, CSS, and JavaScript work offline; adding attempts, outcomes, badges, date edits, and JSON export work offline too. Internet/VPN connectivity is needed for the first visit and later app updates, not for cached offline use.
+
+The manifest uses a stable app ID/start URL and relative scope so GitHub Pages project paths work. The service worker caches only this app's assets, falls back to the app shell for app entry navigation, and removes only old caches with this app's prefix. Updates do not clear localStorage. Change the cache version and asset query versions together whenever changing cached app files. Keep the precache list in `sw.js` in sync with `index.html`.
+
+Installation is free and requires no Play Store account. It does not add cloud syncing or backup: data stays in this browser profile on this device. Clearing site storage may remove both offline files and entries; keep exported backups. Installation/offline behavior was tested in Chromium with a normal persistent profile, mobile viewport, no manifest/installability errors, and simulated offline reload/new-page navigation. Physical Android installation still depends on the user's Chrome version and device.
