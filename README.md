@@ -15,3 +15,7 @@ Public hosting does not require a VPN in ordinary network conditions. Availabili
 ## Validation
 
 Browser checks cover all four opportunity types, rejection progress, editable rejection date, accepted outcomes, reload persistence, filters, undo, JSON export, deletion, 100 board dots, mobile overflow, and JavaScript errors. The app uses browser-local calendar dates for automatic date fields.
+
+## Milestone badges
+
+Rejections unlock badges at 1, 10, 25, 50, 75, and 100. The next-badge progress indicator and badge collection derive from existing saved attempts; no data migration is required. Undoing or deleting a rejection recalculates earned badges. New threshold crossings show a celebration; loading existing progress does not replay it. Reduced-motion preferences disable confetti.
