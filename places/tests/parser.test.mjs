@@ -30,3 +30,5 @@ test('encodes special characters without changing query structure',()=>{
  assert.equal(placeKey({name:'Manner Coffee',city:'上海',address:''}),placeKey({name:'MANNERCOFFEE',city:'上海',address:''}));
 });
 test('bounds extraction size',()=>assert.equal(extractPlaces(Array.from({length:100},(_,i)=>`店名：餐厅${i}`).join('\n')).places.length,80));
+
+test('preserves meaningful leading digits in brand names and addresses',()=>{const r=extractPlaces('店名：7分甜\n地址：123 Nanjing Road','上海');assert.equal(r.places[0].name,'7分甜');assert.equal(r.places[0].address,'123 Nanjing Road');});

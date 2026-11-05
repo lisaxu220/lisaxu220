@@ -1,7 +1,7 @@
 // Conservative, on-device candidate extraction. These are search suggestions, not geocoded POIs.
 const cities=['北京','上海','广州','深圳','杭州','成都','重庆','南京','苏州','武汉','西安','长沙','厦门','青岛','天津','大连','宁波','无锡','福州','昆明','贵阳','南宁','南昌','济南','郑州','合肥','沈阳','哈尔滨','长春','石家庄','太原','兰州','西宁','银川','呼和浩特','乌鲁木齐','拉萨','海口','三亚','珠海','佛山','东莞','惠州','中山','绍兴','嘉兴','湖州','温州','金华','台州','扬州','常州','洛阳','泉州','汕头','丽江','大理','桂林','香港','澳门'];
 const cityOf=text=>cities.find(c=>new RegExp(c+'(?:市|探店|美食|旅游|攻略|打卡|[\s｜|·:：，,。!！/]|$)').test(text)||text.startsWith(c))||'';
-const clean=text=>text.replace(/https?:\/\/\S+/gi,'').replace(/#[^\s#]+/g,'').replace(/^[\s\d①-⑳❶-❿•·\-—.、)）:：️⃣📍🏠🏡🏢🍜☕🍽️✨⭐✅🔸🔹]+/u,'').replace(/[\s。；;]+$/,'').trim();
+const clean=text=>text.replace(/https?:\/\/\S+/gi,'').replace(/#[^\s#]+/g,'').replace(/^\s*(?:\d+\s*[.、)）]\s*|\d\ufe0f?\u20e3\s*|[①-⑳❶-❿]\s*)/u,'').replace(/^[\s•·\-—.、)）:：📍🏠🏡🏢🍜☕🍽️✨⭐✅🔸🔹]+/u,'').replace(/[\s。；;]+$/,'').trim();
 const isAddress=text=>/(?:路|街|巷|弄|大道|胡同|大厦|广场|商场|购物中心|园区|[A-Za-z]+\s+(?:Road|Street|Rd|St))[^\n]{0,45}(?:\d+\s*(?:号|弄|楼|层|室|座)|地铁|出口)/i.test(text)||/(?:省|市|区|县).{1,25}(?:路|街|巷|大道|胡同)\S*/.test(text);
 const nameLabel=/^(?:店名|店铺|餐厅名?|名称|地点|位置|咖啡店|restaurant|place|name)\s*[:：]\s*/i;
 const addressLabel=/^(?:详细地址|地址|位置|坐标|address)\s*[:：]\s*/i;

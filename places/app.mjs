@@ -1,4 +1,4 @@
-import {extractPlaces,placeKey,amapLinks} from './parser.mjs?v=1';
+import {extractPlaces,placeKey,amapLinks} from './parser.mjs?v=2';
 const $=s=>document.querySelector(s);
 const STORAGE='pocket-places-v1';
 let candidates=[],saved=[],picked=new Set(),storageError=false,timer,installPrompt=null;
