@@ -21,4 +21,4 @@ Use Supabase's **Free** plan and the existing free GitHub Pages hosting. Do not 
 
 ## Before final deployment
 
-Real-project validation is outstanding until public project settings are provided and the SQL is installed. Do not call cloud sync ready merely because the UI or simulated tests pass. Preserve the existing local-only public app until that prerequisite is met.
+The project URL/public key are connected and the live sync function was found to reject anonymous calls. Email/password signup is enabled and email confirmation is required. Signed-in cross-device verification remains outstanding until the user creates/signs in to a tracker account. Do not call cloud sync ready merely because the UI or simulated tests pass. Preserve the existing local-only public app until that prerequisite is met.

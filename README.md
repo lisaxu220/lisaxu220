@@ -30,4 +30,4 @@ Installation is free and requires no Play Store account. Installation itself doe
 
 ## Optional free sync
 
-The implementation and database schema are prepared; a real Supabase Free project must be connected and tested before deployment. Follow [backend/SETUP.md](backend/SETUP.md). The current public app stays local-only until then. No paid upgrades or services are authorized.
+A Supabase project is connected through public browser settings. Email sign-in is enabled and anonymous database access is denied. Actual signed-in syncing must be verified with your tracker account on both devices. Follow [backend/SETUP.md](backend/SETUP.md). Use **Sync devices** to create an account and sign in to that same account on both devices. No paid upgrades or services are authorized.
