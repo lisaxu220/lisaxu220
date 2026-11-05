@@ -1,44 +1,8 @@
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My profile</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-</head>
-
-<body>
-  <div class="container">
-    <div class="card">
-      <h1>Hey, I'm Lisa 😊</h1>
-      <img src="images/headshot2.jpg" alt="Lisa's headshot">
-      <p>I love Ruby, art, and food 🍰. I currently work at a marketing agency but I want to become a software developer! 💻</p>
-      <a href="https://www.dropbox.com/sh/ukgz3yt7w4k1ky2/AAAUZ_jqDvGSLnktBwjn0LTFa?dl=0" target="_blank">Check out my portfolio!</a>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="card">
-      <h2>Follow me!</h2>
-      <ul>
-        <li>
-          <a href="https://www.instagram.com/lisaaaxu/" target="_blank">
-            <i class="fab fa-instagram"></i>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/lisaxu220" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.linkedin.com/in/lisa-xu-/" target="_blank">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </li>
-      </ul>
-      </div>
-    </div>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#faf7f0"><title>No big deal — 100 rejections</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head><body>
+<header><a class="brand" href="./"><b>→</b> no big deal<span>.</span></a><small>A LITTLE COURAGE, ONE ASK AT A TIME</small><button id="export" class="quiet">Export my data →</button></header>
+<main><section class="intro"><div><p class="eyebrow">THE 100 REJECTIONS CHALLENGE</p><h1>Go on. Shoot your shot<span>.</span></h1><p class="subtitle">Collect the no’s. Find the unexpected yeses. See what happens.</p></div><div class="sticker" aria-hidden="true">MORE ASKS<br><strong>MORE<br>POSSIBILITIES</strong> ✦</div></section>
+<div class="dashboard"><section class="board-panel" aria-labelledby="board-title"><div class="panel-top"><h2 id="board-title">Your courage, collected</h2><span class="pill">THE GOAL: 100 NO’S</span></div><div class="progress"><div><strong id="count">0</strong><span> / 100</span></div><p id="progress-copy">Every dot starts with an ask.</p></div><div id="board" class="dot-board" aria-label="100 rejection milestones"></div><div class="legend"><span><i class="job"></i>Job</span><span><i class="internship"></i>Internship</span><span><i class="scholarship"></i>Scholarship</span><span><i class="other"></i>Other</span><span><i></i>Still to come</span></div><div class="board-footer"><span>✦</span><p>A “no” isn’t a stop sign.<br><strong>It’s another dot on your board.</strong></p><span>→</span></div></section>
+<aside><section class="add-panel"><p class="eyebrow">YOUR NEXT POSSIBILITY</p><h2>Put yourself out there.</h2><p>Big dream or tiny ask. It all counts.</p><form id="attempt-form"><label for="opportunity">What did you apply for?</label><input id="opportunity" placeholder="e.g. Design internship at Spotify" maxlength="160" required><label for="type">Opportunity type</label><select id="type"><option value="job">Job</option><option value="internship">Internship</option><option value="scholarship">Scholarship</option><option value="other">Other</option></select><label for="applied">Date applied</label><input id="applied" type="date" required><button class="primary">Add an attempt <span>→</span></button></form><p class="form-note">An ask is already a little win.</p></section><section class="yes-note"><span>✳</span><div><h3>Got a yes? Plot twist.</h3><p>Keep it, celebrate it. Your rejection count stays just for the no’s.</p></div></section></aside></div>
+<section class="attempts"><div class="attempts-heading"><div><p class="eyebrow">KEEP THE POSSIBILITIES COMING</p><h2>Your attempts <span id="total">0</span></h2></div><div class="filters" role="group" aria-label="Filter attempts"><button data-filter="all" class="active" aria-pressed="true">All</button><button data-filter="waiting" aria-pressed="false">Waiting</button><button data-filter="rejected" aria-pressed="false">Rejected</button><button data-filter="accepted" aria-pressed="false">Accepted</button></div></div><div id="attempt-list"></div></section>
+<footer><span>Made for taking chances. Not taking it personally.</span><span>Your data stays in this browser. Export a backup anytime.</span></footer></main>
+<dialog id="detail"><form method="dialog"><button class="close" aria-label="Close details">×</button></form><p id="detail-number" class="eyebrow"></p><h2 id="detail-title"></h2><p id="detail-type"></p><label for="rejected-date">Date rejected</label><input id="rejected-date" type="date" required><button class="primary" id="save-date">Save date</button></dialog><div id="toast" role="status" aria-live="polite"></div></body></html>
