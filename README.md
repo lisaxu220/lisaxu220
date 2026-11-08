@@ -31,3 +31,9 @@ Installation is free and requires no Play Store account. Installation itself doe
 ## Optional free sync
 
 A Supabase project is connected through public browser settings. Email sign-in is enabled and anonymous database access is denied. Actual signed-in syncing must be verified with your tracker account on both devices. Follow [backend/SETUP.md](backend/SETUP.md). Use **Sync devices** to create an account and sign in to that same account on both devices. No paid upgrades or services are authorized.
+
+## Fast rejection entry
+
+New entries default to Rejected and ask for Date rejected, so saving immediately updates the board and badges. Outcome can be switched to Waiting (Date applied) or Accepted (Date accepted). After saving, the form returns to Rejected with today's date. Dates on existing entries remain intact.
+
+For compatibility with the deployed database constraint, new outcome-only entries retain the required `applied` date field as a compatibility value and set `appliedKnown: false`. The UI never describes that value as an application date. `recordedDate`, `outcomeDate`, and `rejected` retain the user's relevant date. Existing entries without the flag continue to display their actual application dates. No database migration or paid service is needed.
