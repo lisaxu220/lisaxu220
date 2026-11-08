@@ -1,8 +1,8 @@
-const CACHE = 'no-big-deal-offline-v5';
+const CACHE = 'no-big-deal-offline-v6';
 const ASSETS = [
-  './', './index.html', './style.css?v=entry-2',
-  './app.js?v=entry-2', './pwa.js?v=entry-2', './store.js?v=entry-2',
-  './sync-config.js?v=entry-2', './sync.js?v=entry-2',
+  './', './index.html', './style.css?v=entry-3',
+  './app.js?v=entry-3', './pwa.js?v=entry-3', './store.js?v=entry-3',
+  './sync-config.js?v=entry-3', './sync.js?v=entry-3',
   './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'
 ];
 self.addEventListener('install', event => {
