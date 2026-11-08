@@ -34,6 +34,6 @@ A Supabase project is connected through public browser settings. Email sign-in i
 
 ## Fast rejection entry
 
-New entries default to Rejected and ask for Date rejected, so saving immediately updates the board and badges. Outcome can be switched to Waiting (Date applied) or Accepted (Date accepted). After saving, the form returns to Rejected with today's date. Dates on existing entries remain intact.
+New entries default to Rejected and ask for Date rejected, so saving immediately updates the board and badges. Outcome can be switched to Waiting or Accepted, which hide the date field. Date rejected is the only user-entered date. After saving, the form returns to Rejected with today's date. Dates on existing entries remain intact.
 
-For compatibility with the deployed database constraint, new outcome-only entries retain the required `applied` date field as a compatibility value and set `appliedKnown: false`. The UI never describes that value as an application date. `recordedDate`, `outcomeDate`, and `rejected` retain the user's relevant date. Existing entries without the flag continue to display their actual application dates. No database migration or paid service is needed.
+For compatibility with the deployed database constraint, new outcome-only entries retain the required `applied` date field as a compatibility value and set `appliedKnown: false`. The UI never describes that value as an application date. `recordedDate`, `outcomeDate`, and `rejected` retain the user's relevant date. Historical application-date values are preserved in stored data for compatibility but are not shown in the UI. No database migration or paid service is needed.

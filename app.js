@@ -11,14 +11,9 @@ function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className
 function button(text,cls,action){const b=el('button',cls,text);b.type='button';b.addEventListener('click',action);return b;}
 function dateLabel(value){return new Date(value+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
 function entryDates(a){
- const dates=[];
- if(a.appliedKnown!==false)dates.push(`Applied ${dateLabel(a.applied)}`);
- if(a.status==='rejected')dates.push(`Rejected ${dateLabel(a.rejected)}`);
- else if(a.status==='accepted'&&a.outcomeDate)dates.push(`Accepted ${dateLabel(a.outcomeDate)}`);
- else if(a.appliedKnown===false&&a.recordedDate)dates.push(`Recorded ${dateLabel(a.recordedDate)}`);
- return dates.join(' · ');
+ return a.status==='rejected'?`Rejected ${dateLabel(a.rejected)}`:'';
 }
-function showDetail(id){selected=id;const rejected=attempts.filter(a=>a.status==='rejected'),a=rejected.find(a=>a.id===id);if(!a)return;$('#detail-number').textContent=`COLLECTED NO. ${rejected.indexOf(a)+1}`;$('#detail-title').textContent=a.name;$('#detail-type').textContent=`${labels[a.type]} · ${entryDates(a)}`;$('#rejected-date').value=a.rejected;$('#detail').showModal();}
+function showDetail(id){selected=id;const rejected=attempts.filter(a=>a.status==='rejected'),a=rejected.find(a=>a.id===id);if(!a)return;$('#detail-number').textContent=`COLLECTED NO. ${rejected.indexOf(a)+1}`;$('#detail-title').textContent=a.name;$('#detail-type').textContent=[labels[a.type],entryDates(a)].filter(Boolean).join(' · ');$('#rejected-date').value=a.rejected;$('#detail').showModal();}
 function celebrate(milestone){
  notify(`Badge unlocked: ${milestone.name}! ${milestone.message}`);
  clearTimeout(timer);timer=setTimeout(()=>$('#toast').classList.remove('visible'),6500);
@@ -43,10 +38,11 @@ function changeStatus(id,status){
  if(milestone){celebrate(milestone);return;}
  notify(status==='rejected'?'One more no. One more brave ask. ✦':status==='accepted'?'An unexpected yes! Take the win. ✳':'Back to waiting.');
 }
-function render(){const rejected=attempts.filter(a=>a.status==='rejected');renderRewards(rejected.length);$('#count').textContent=rejected.length;$('#total').textContent=attempts.length;$('#progress-copy').textContent=rejected.length>=100?'100 no’s collected. Keep taking chances!':rejected.length?`${100-rejected.length} more no’s. So many possibilities.`:'Every dot starts with an ask.';$('#board').replaceChildren();for(let i=0;i<100;i++){const a=rejected[i];let dot;if(a){dot=button('✦',`dot filled ${a.type}`,()=>showDetail(a.id));dot.setAttribute('aria-label',`Rejection ${i+1}: ${a.name}, ${dateLabel(a.rejected)}. Edit date`);dot.title=`${a.name} · ${dateLabel(a.rejected)}`;}else{dot=el('span','dot',String(i+1));dot.setAttribute('aria-label',`Milestone ${i+1}, still to come`);}$('#board').append(dot);}const list=$('#attempt-list');list.replaceChildren();const shown=attempts.filter(a=>filter==='all'||a.status===filter).slice().reverse();if(!shown.length){const empty=el('div','empty');empty.append(el('span','empty-icon','→'),el('h3','',attempts.length?'Nothing here just yet.':'Your next “no” starts with a hello.'),el('p','',attempts.length?'Your attempts will appear here when their status matches.':'Add your first attempt above. You don’t have to feel ready.'));list.append(empty);}for(const a of shown){const row=el('article','attempt-row'),info=el('div','attempt-info');info.append(el('h3','',a.name),el('p','',`${labels[a.type]} · ${entryDates(a)}`));const actions=el('div','row-actions');if(a.status==='waiting')actions.append(button('Rejected +1','outcome reject',()=>changeStatus(a.id,'rejected')),button('Accepted ✧','outcome',()=>changeStatus(a.id,'accepted')));else{if(a.status==='rejected')actions.append(button('Rejected · Edit date','status-badge',()=>showDetail(a.id)));else actions.append(el('span','status-badge accepted','Unexpected win ✧'));actions.append(button('Undo','undo',()=>changeStatus(a.id,'waiting')));}const remove=button('×','delete',()=>{if(confirm(`Delete “${a.name}”? This also removes its progress dot.`))save(attempts.filter(x=>x.id!==a.id));});remove.setAttribute('aria-label',`Delete ${a.name}`);actions.append(remove);row.append(el('span',`type-icon ${a.type}`,'→'),info,actions);list.append(row);}}
+function render(){const rejected=attempts.filter(a=>a.status==='rejected');renderRewards(rejected.length);$('#count').textContent=rejected.length;$('#total').textContent=attempts.length;$('#progress-copy').textContent=rejected.length>=100?'100 no’s collected. Keep taking chances!':rejected.length?`${100-rejected.length} more no’s. So many possibilities.`:'Every dot starts with an ask.';$('#board').replaceChildren();for(let i=0;i<100;i++){const a=rejected[i];let dot;if(a){dot=button('✦',`dot filled ${a.type}`,()=>showDetail(a.id));dot.setAttribute('aria-label',`Rejection ${i+1}: ${a.name}, ${dateLabel(a.rejected)}. Edit date`);dot.title=`${a.name} · ${dateLabel(a.rejected)}`;}else{dot=el('span','dot',String(i+1));dot.setAttribute('aria-label',`Milestone ${i+1}, still to come`);}$('#board').append(dot);}const list=$('#attempt-list');list.replaceChildren();const shown=attempts.filter(a=>filter==='all'||a.status===filter).slice().reverse();if(!shown.length){const empty=el('div','empty');empty.append(el('span','empty-icon','→'),el('h3','',attempts.length?'Nothing here just yet.':'Your next “no” starts with a hello.'),el('p','',attempts.length?'Your attempts will appear here when their status matches.':'Add your first attempt above. You don’t have to feel ready.'));list.append(empty);}for(const a of shown){const row=el('article','attempt-row'),info=el('div','attempt-info');info.append(el('h3','',a.name),el('p','',[labels[a.type],entryDates(a)].filter(Boolean).join(' · ')));const actions=el('div','row-actions');if(a.status==='waiting')actions.append(button('Rejected +1','outcome reject',()=>changeStatus(a.id,'rejected')),button('Accepted ✧','outcome',()=>changeStatus(a.id,'accepted')));else{if(a.status==='rejected')actions.append(button('Rejected · Edit date','status-badge',()=>showDetail(a.id)));else actions.append(el('span','status-badge accepted','Unexpected win ✧'));actions.append(button('Undo','undo',()=>changeStatus(a.id,'waiting')));}const remove=button('×','delete',()=>{if(confirm(`Delete “${a.name}”? This also removes its progress dot.`))save(attempts.filter(x=>x.id!==a.id));});remove.setAttribute('aria-label',`Delete ${a.name}`);actions.append(remove);row.append(el('span',`type-icon ${a.type}`,'→'),info,actions);list.append(row);}}
 function updateEntryForm(){
  const status=$('#entry-status').value;
- $('#entry-date-label').textContent=status==='rejected'?'Date rejected':status==='accepted'?'Date accepted':'Date applied';
+ $('#rejection-date-field').hidden=status!=='rejected';
+ $('#entry-date').required=status==='rejected';
  $('#add-entry').replaceChildren(document.createTextNode(status==='rejected'?'Add rejection ':'Add an attempt '),el('span','','→'));
 }
 $('#entry-date').value=today();
@@ -54,12 +50,12 @@ $('#entry-status').addEventListener('change',updateEntryForm);
 $('#attempt-form').addEventListener('submit',e=>{
  e.preventDefault();const name=$('#opportunity').value.trim();
  if(!name){$('#opportunity').setCustomValidity('Enter an opportunity.');$('#opportunity').reportValidity();return;}
- const status=$('#entry-status').value,date=$('#entry-date').value;
+ const status=$('#entry-status').value,date=status==='rejected'?$('#entry-date').value:today();
  if(!['rejected','waiting','accepted'].includes(status)||!date)return;
  const before=attempts.filter(a=>a.status==='rejected').length;
  // Keep the required legacy date field for existing sync schemas. The flag prevents
  // an outcome date being presented as an application date, without a database migration.
- const item={id:crypto.randomUUID(),name,type:$('#type').value,applied:date,appliedKnown:status==='waiting',recordedDate:date,status,rejected:status==='rejected'?date:null,outcomeDate:status==='accepted'?date:null};
+ const item={id:crypto.randomUUID(),name,type:$('#type').value,applied:date,appliedKnown:false,recordedDate:date,status,rejected:status==='rejected'?date:null,outcomeDate:status==='accepted'?date:null};
  if(save([...attempts,item])){
   $('#opportunity').value='';$('#entry-date').value=today();$('#entry-status').value='rejected';updateEntryForm();
   const count=attempts.filter(a=>a.status==='rejected').length;
